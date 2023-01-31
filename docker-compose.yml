@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  server:
+    build: 
+      dockerfile: ./server.dockerfile
+      context: .
+    container_name: ntp-server
+    ports:
+      - "5000:5000"
+    networks:
+      - ntp-network
+  
+  client:
+    build: 
+      dockerfile: ./client.dockerfile
+      context: .
+    container_name: ntp-client
+    networks:
+      - ntp-network
+    depends_on:
+      - server
+
+networks:
+  ntp-network:
+    driver: bridge
+
